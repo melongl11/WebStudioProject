@@ -1,0 +1,15 @@
+table, td, th {
+  border: 1px solid black;
+}
+.menu {
+  text-align: center;
+}
+.infoMenu {
+  text-align: center;
+}
+#tableTitle{
+  text-align: center;
+}
+th {
+  text-align: center;
+}

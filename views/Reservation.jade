@@ -1,0 +1,228 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')  
+    link(rel="stylesheet", href="/css/bootstrap-3.3.4-dist/css/bootstrap.min.css")
+    link(rel='stylesheet', type='text/css', href='./css/homeCss.css')
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+    script(src="/css/bootstrap-3.3.4-dist/js/bootstrap.min.js")
+    title 예약
+    link(rel='stylesheet', type='text/css', href='http://www.blueb.co.kr/data/201010/IJ12872423858253/fullcalendar.css')
+    script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/jquery.js')
+    script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/jquery-ui-custom.js')
+    script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/fullcalendar.min.js')
+    style.
+      .mySlides {display:none;}
+    style.
+      .row{
+        margin: auto;
+        padding: 20px;
+        border: 2px solid #000000;
+        overflow:auto;
+      }
+    script.
+      var reservation = !{JSON.stringify(reservation)};
+      $(document).ready(function() {
+      var topmenu = document.getElementsByClassName("topmenu");
+      var menuArray = new Array();
+      
+      for(var i=0; i < topmenu.length; i++) {
+        topmenu[i].addEventListener('mouseover', function() {
+          subMenu = this.childNodes[2];
+          //this.style.backgroundPosition="-200px top"
+          subMenu.style.height="100%";
+          subMenu.style.opacity="1";
+          subMenu.style.overflow="visible";
+        })
+        topmenu[i].addEventListener('mouseout', function() {
+          subMenu = this.childNodes[2];
+          //this.style.backgroundPosition="left top"
+          subMenu.style.height="0px";
+          subMenu.style.opacity="0";
+          subMenu.style.overflow="hidden";
+        })
+      }
+      var date = new Date();
+      var d = date.getDate();
+      var m = date.getMonth();
+      var y = date.getFullYear();
+      var array = []
+      var array2 = []
+      for(var obj in reservation)
+      {
+        console.log(reservation[obj].edate);
+        array.push({
+          title: reservation[obj].horse_name,
+          start: new Date(reservation[obj].sdate),
+          end: new Date(reservation[obj].edate)
+        })
+        array2.push({
+          title: reservation[obj].horse_name,
+          start: new Date(reservation[obj].sdate),
+          end: new Date(reservation[obj].edate)
+        })
+      }
+      
+      
+      $('#calendar').fullCalendar({
+      header: {
+      left: 'prev,next, today',
+      center: 'title',
+      right: 'disable'
+      },
+      
+      events: array
+      });
+      
+      $('#calendar_mobile').fullCalendar({
+      header: {
+      left: 'prev,next, today',
+      center: 'title',
+      right: 'disable'
+      },
+      
+      events: array2
+      });
+      });
+ 
+    style(type='text/css').
+      body {
+      text-align: center; 
+      font-size: 0.7vw;
+      font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+      }
+      #calendar {
+      width: 80%;
+      margin: 0 auto;
+      }
+      #calendar_mobile {
+        width: 100%;
+        margin-top:2%;
+      }
+  body
+    div.hidden-lg.hidden-md.visible-xs-12.visible-sm-12
+      h1(style="text-align:center; margin-bottom: 15px; color:#97B4E8")
+        strong Reservation
+      h4(style="text-align:center;color:#97B4E8 ")
+        예약하기
+      br
+      br
+      .col-xs-8
+        #calendar_mobile
+      .col-xs-4
+        h4 바로 예약하기
+        form#noticeAddForm(method="post", action="/reservation/add" , onsubmit='return check()', name ='fr')
+          .col-sm-3
+            label(for='sdate') 시작 날짜
+            input#sdate.form-control(type='Date', name = "sdate")
+          .col-sm-3
+            label(for='ex1') 마지막 날짜
+            input#edate.form-control(type='Date', name = "edate")
+          .col-sm-2
+            label(for='ex4') 예약자명
+            input#cname.form-control(type='text', name = "cname")
+          .col-sm-1
+            br
+            input.btn.btn-default.btn-lg(type="submit")            
+          
+      div(style="position:absolute; bottom:0px; background-color:#111133; opacity: 0.8; margin-top: 60%;height:30%;")
+        br
+        br
+        .col-xs-3(style='padding:10px;')
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;')
+        each menuItem in tabmenu
+          .col-xs-3(style='border: 1px solid #777; padding: 13px')
+            a(href='/'+menuItem.id, style='list-style:none; font-size:3vw; bottom:0px; color:#ffffff;')= menuItem.contents
+        img(src="/img/companyinfo_mobile.png", style="margin-top:2%;width:60%; bottom:0px;")
+    
+    
+    
+    div.visible-lg-12.visible-md-12.hidden-xs.hidden-sm
+      div.col-sm-2(style="height:100%; color: #ffffff; background-color:#111133; opacity: 0.8;  filter: alpha(opacity=50); position:fixed;")
+        p
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;  margin-bottom: 15%;')
+        br
+        br
+        br
+        div
+          ul(style="list-style:none;").leftMenu
+            each menuItem in tabmenu
+              li.topmenu(style="height:100%; margin-bottom: 5px; margin-left: 5%;")
+                a(href='/'+menuItem.id, style='background-position: left top; text-align:left; clear:left; font-size:1.1vw; margin-top:5%;color:#FFFFFF', class="topmenu")= menuItem.contents
+                div(id=menuItem.contents, style='height:0px; overflow: hidden; opacity:0px;text-align:left; font-size:0.9vw;')
+                  ul(style='list-style:none; padding-left:20px;')
+                    each submenuItem in submenu
+                      if submenuItem.tab_id==menuItem.id
+                        li(style="padding-left:0px;").submenu
+                          a(href='/'+menuItem.id+'/'+submenuItem.id, style="color:#FFFFFF")= submenuItem.item
+                                    
+        div#companyInfo(style="position:absolute; bottom: 0px; width:17vw;")
+          img(src="/img/companyinfo.png", style="width:100%;")
+      div(style="margin-top:0%; position: relative; left:17% ; margin-left:0%;").col-sm-10
+        div(style="margin-left:0%;")
+          h1(style="text-align:center; margin-bottom: 15px; color:#97B4E8")
+            strong Reservation
+          h4(style="text-align:center; color:#97B4E8 ")
+            예약하기
+          br
+        #picture
+          .w3-content.w3-display-container(style='height:100%;width:100%;max-width:none;margin-left:0px;margin-right:0px; position: absolute; top: 0px;')
+            //img(src='/img/bgr.jpg', style='width:100%', width='100%', height='100%')        
+        .col-sm-4
+          .w3-content.w3-section(style=' margin-top:50%; margin-left:10%;', width='90%', height='auto')
+            each horse in horseroom
+              img.mySlides(src='/img/horse/#{horse.horse_name}.jpg', width='100%', height='auto')
+        .col-sm-8(style="margin-bottom:4%;margin-top:0%")
+          #calendar
+          
+        h2 바로 예약하기
+        #reserve(style='margin-left:20%')
+          br
+          form#noticeAddForm(method="post", action="/reservation/add" , onsubmit='return check()', name ='fr')
+            .col-sm-3
+              label(for='sdate') 시작 날짜
+              input#sdate.form-control(type='Date', name = "sdate")
+            .col-sm-3
+              label(for='ex1') 마지막 날짜
+              input#edate.form-control(type='Date', name = "edate")
+            .col-sm-2
+              label(for='ex4') 예약자명
+              input#cname.form-control(type='text', name = "cname")
+            .col-sm-1
+              br
+              input.btn.btn-default.btn-lg(type="submit")    
+          
+      script.
+        var myIndex = 0;
+        carousel();
+        function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) {myIndex = 1}
+        x[myIndex-1].style.display = "block";
+        setTimeout(carousel, 2000); // Change image every 2 seconds
+        }
+        function check(){
+          if(fr.cname.value == "") {
+            alert("값을 입력해 주세요.");
+            fr.cname.focus();
+            return false;
+          }
+          else if(fr.sdate.value == "") {
+            alert("값을 입력해 주세요.");
+            fr.sdate.focus();
+            return false;
+          }
+          else if(fr.edate.value == "") {
+            alert("값을 입력해 주세요.");
+            fr.edate.focus();
+            return false;
+          }
+          else return true;
+        }

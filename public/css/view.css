@@ -1,0 +1,12 @@
+.mySlides {display:none}
+.w3-left, .w3-right, .w3-badge {cursor:pointer}
+.w3-badge {height:13px;width:13px;padding:0}
+#lefttab1 {visibility:visible;}
+#lefttab2 {visibility:hidden;}
+@media screen and ( min-width: 1024px ) {
+  #lefttab2 {visibility:visible;}
+  #lefttab1 {visibility:hidden;}
+}
+html, body {
+  height: 100%;
+}

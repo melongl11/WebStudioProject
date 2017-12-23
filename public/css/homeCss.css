@@ -1,0 +1,60 @@
+#leftTitle{
+  width: 100%;
+  height: 140px;
+  margin-right: 0px;
+}
+.leftMenu {
+  list-style: none;
+  padding-left: 15px;
+}
+.topmenu > a{
+  display: block;
+  width: 100%;
+  height: 47px;
+  line-height: 47px;
+}
+.submenu a{
+  height: 20px;
+}
+.topmenu ul {
+  list-style: none;
+  padding-left: 15px;
+}
+#menuBar {
+  text-align: center;
+  margin: 10px;
+}
+
+#menulist {
+  list-style: none;
+  display: inline;
+  padding: 3px;
+}
+#menulist li {
+  display:inline;
+  border: 1px solid;
+}
+#picture{
+  clear;
+  text-align: center;
+}
+#info {
+  text-align: center;
+}
+
+#picture .centerPicture {
+  object-fit: cover;
+}
+
+html, body {
+  height: 100%;
+}
+#picture {
+  height: 100%;
+}
+.menu a{
+  cursor:pointer;
+}
+.rightListMenu {
+  height: 20%;
+}

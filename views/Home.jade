@@ -1,0 +1,136 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    link(rel="stylesheet", href="/css/bootstrap-3.3.4-dist/css/bootstrap.min.css")
+    link(rel='stylesheet', type='text/css', href='/css/homeCss.css')
+    link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js')
+    script(src="/css/bootstrap-3.3.4-dist/js/bootstrap.min.js")
+    style.
+      .mySlides {display:none}
+      .w3-left, .w3-right, .w3-badge {cursor:pointer}
+      .w3-badge {height:13px;width:13px;padding:0}
+      #lefttab1 {visibility:visible;}
+      #lefttab2 {visibility:hidden;}
+      @media screen and ( min-width: 1024px ) {
+        #lefttab2 {visibility:visible;}
+        #lefttab1 {visibility:hidden;}
+      }
+    title 세종승마장
+  body
+    div.hidden-lg.hidden-md.visible-xs-12.visible-sm-12
+      #picture1
+        .w3-content.w3-display-container(style='height:70%;width:100%;max-width:none;margin-left:0px;margin-right:0px; position: absolute; top: 0px;')
+          img(src='/img/main_image1.jpg', style='width:100%', width='100%', height='100%')
+          
+        div(style="position:fixed; bottom:0px; background-color:#111133; opacity: 0.8; margin-top: 60%;height:30%;")
+          br
+          br
+          .col-xs-3(style='padding:10px;')
+            a(href='/home/')
+              img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;')
+          each menuItem in tabmenu
+            .col-xs-3(style='border: 1px solid #777; padding: 13px')
+              a(href='/'+menuItem.id, style='list-style:none; font-size:3vw; bottom:0px; color:#ffffff;')= menuItem.contents
+          img(src="/img/companyinfo_mobile.png", style="margin-top:2%;width:60%; bottom:0px;")
+              
+    div.visible-lg-12.visible-md-12.hidden-xs.hidden-sm
+      #picture
+        .w3-content.w3-display-container(style='height:100%;width:100%;max-width:none;margin-left:0px;margin-right:0px; position: absolute; top: 0px;')
+          img.mySlides(src='/img/main_image1.jpg', style='width:100%', width='100%', height='100%')
+          img.mySlides(src='/img/main_image2.jpg', style='width:100%', width='100%', height='100%')
+          .w3-center.w3-container.w3-section.w3-large.w3-text-white.w3-display-bottommiddle(style='width:100%')
+            .w3-left.w3-hover-text-khaki(onclick='plusDivs(-1)' style='font-size:40pt') ❮
+            .w3-right.w3-hover-text-khaki(onclick='plusDivs(1)' style='font-size:40pt') ❯
+            span.w3-badge.demo.w3-border.w3-transparent.w3-hover-white(onclick='currentDiv(1)')
+            span.w3-badge.demo.w3-border.w3-transparent.w3-hover-white(onclick='currentDiv(2)')          
+      div.col-sm-2(style="position: fixed; height:100%; color: #ffffff; background-color:#111133; opacity: 0.8;  filter: alpha(opacity=50);")
+        p
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;  margin-bottom: 15%;')
+        br
+        br
+        br
+        div
+          ul(style="list-style:none;").leftMenu
+            each menuItem in tabmenu
+              li.topmenu(style="height:100%; margin-bottom: 5px; margin-left: 5%")
+                a(href='/'+menuItem.id, style='background-position: left top; text-align:left; clear:left; font-size:1.1vw; margin-top:5%;', class="topmenu")= menuItem.contents
+                div(id=menuItem.contents, style='height:0px; overflow: hidden; opacity:0px;text-align:left; font-size:0.9vw;')
+                  ul(style='list-style:none; padding-left:20px;')
+                    each submenuItem in submenu
+                      if submenuItem.tab_id==menuItem.id
+                        li(style="padding-left:0px; ").submenu
+                          a(href='/'+menuItem.id+'/'+submenuItem.id)= submenuItem.item
+        div#companyInfo(style="position:absolute; bottom: 0px; width:17vw;")
+          img(src="/img/companyinfo.png", style="width:100%;")
+    
+          //  img.centerPicture(width='100%', height='100%', src='/img/main_image1.jpg', alt='')
+
+        
+  script.
+     $(document).ready(function() {
+     var topmenu = document.getElementsByClassName("topmenu");
+     var menuArray = new Array();
+     
+     for(var i=0; i < topmenu.length; i++) {
+       topmenu[i].addEventListener('mouseover', function() {
+         subMenu = this.childNodes[2];
+         //this.style.backgroundPosition="-200px top"
+         subMenu.style.height="100%";
+         subMenu.style.opacity="1";
+         subMenu.style.overflow="visible";
+       })
+       topmenu[i].addEventListener('mouseout', function() {
+         subMenu = this.childNodes[2];
+         //this.style.backgroundPosition="left top"
+         subMenu.style.height="0px";
+         subMenu.style.opacity="0";
+         subMenu.style.overflow="hidden";
+       })
+     }
+     })
+     
+     var slideIndex = 1;
+     showDivs(slideIndex);
+     function plusDivs(n) {
+     showDivs(slideIndex += n);
+     }
+     function currentDiv(n) {
+     showDivs(slideIndex = n);
+     }
+     function showDivs(n) {
+     var i;
+     var x = document.getElementsByClassName("mySlides");
+     var dots = document.getElementsByClassName("demo");
+     if (n > x.length) {slideIndex = 1}
+     if (n < 1) {slideIndex = x.length}
+     for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+     }
+     for (i = 0; i < dots.length; i++) {
+     dots[i].className = dots[i].className.replace(" w3-white", "");
+     }
+     x[slideIndex-1].style.display = "block";
+     dots[slideIndex-1].className += " w3-white";
+     }
+     
+     var myIndex = 0;
+     carousel();
+     function carousel() {
+     var i;
+     var x = document.getElementsByClassName("mySlides");
+     var dots = document.getElementsByClassName("demo");
+     for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";
+     }
+     for (i = 0; i < dots.length; i++) {
+     dots[i].className = dots[i].className.replace(" w3-white", "");
+     }
+     myIndex++;
+     if (myIndex > x.length) {myIndex = 1}
+     x[myIndex-1].style.display = "block";
+     dots[myIndex-1].className += " w3-white";
+     setTimeout(carousel, 6000); // Change image every 2 seconds
+     }

@@ -1,0 +1,122 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    link(href='http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='/css/infoCss.css')
+    link(rel="stylesheet", type='text/css', href='/css/view.css')
+    link(rel="stylesheet", type='text/css', href='/css/homeCss.css')
+    link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')  
+    
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.0/css/swiper.min.css', rel='stylesheet')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.0/js/swiper.min.js')
+    script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js')
+    script(src='/js/gallery.js')
+    link(href='/css/gallery.css', rel='stylesheet')
+    title 갤러리
+  body
+    div(style="margin-top:5%; position: absolute; margin-left: 10%; width:70%; height:70%;" ).col-sm-10
+      div(style="margin-left:0%;")
+        h1(style="text-align:center; margin-bottom: 15px; color:#97B4E8")
+          strong Gallery
+        h4(style="text-align:center; color:#97B4E8 ")
+          갤러리 공간 입니다.
+        br
+      .main
+        .container(style="width: 70%; height: 70%")
+          .product-gallery
+            .product-photo-main(style="margin-bottom: 0; height: 70%")
+              .swiper-container
+                .swiper-wrapper
+                  each img_name in img
+                    .swiper-slide
+                      .swiper-zoom-container
+                        img(src = "/img/gallery/#{img_name.img_name}.jpg", alt="Gallery Image")  
+                  .swiper-pagination
+            .product-photos-side(style="margin-top: 0% heigth: 70%")
+              .swiper-container
+                each img_name in img
+                  .swiper-slide
+                    .swiper-zoom-container
+                      img(src = "/img/gallery/#{img_name.img_name}.jpg", alt="Gallery Image")  
+      .product-gallery-full-screen
+        .swiper-container.gallery-top
+          .swiper-wrapper
+            each img_name in img
+              .swiper-slide
+                .swiper-zoom-container
+                  img(src = "/img/gallery/#{img_name.img_name}.jpg", alt="Gallery Image")  
+          .swiper-button-next.swiper-button-white
+            svg(fill='#FFFFFF', viewbox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+              path(d='M0 0h24v24H0z', fill='none')
+              path(d='M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z')
+          .swiper-button-prev.swiper-button-white
+            svg(fill='#FFFFFF', viewbox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+              path(d='M0 0h24v24H0z', fill='none')
+              path(d='M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z')
+          .gallery-nav
+            .swiper-pagination
+            ul.gallery-menu
+              li.zoom
+                svg.zoom-icon-zoom-in(viewbox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+                  path(d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z')
+                  path(d='M0 0h24v24H0V0z', fill='none')
+                  path(d='M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z')
+                svg.zoom-icon-zoom-out(viewbox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+                  path(d='M0 0h24v24H0V0z', fill='none')
+                  path(d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z')
+              li.fullscreen
+                svg.fs-icon(viewbox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+                  path(d='M0 0h24v24H0z', fill='none')
+                  path(d='M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z')
+                svg.fs-icon-exit(viewbox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+                  path(d='M0 0h24v24H0z', fill='none')
+                  path(d='M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z')
+              li.close
+                svg(viewbox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+                  path(d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z')
+                  path(d='M0 0h24v24H0z', fill='none')
+
+        //  img.centerPicture(width='100%', height='100%', src='/img/main_image1.jpg', alt='')
+
+    div.hidden-lg.hidden-md.hidden-xs.visible-sm-12
+      div(style="position:absolute; bottom:0px; background-color:#111133; opacity: 0.8; margin-top: 60%;")
+        br
+        br
+        .col-sm-3(style='padding:10px;')
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;')
+        each menuItem in tabmenu
+          .col-sm-3(style='border: 1px solid #777; padding: 13px')
+            a(href='/'+menuItem.id, style='list-style:none; font-size:3vw; bottom:0px; color:#ffffff;')= menuItem.contents
+        img(src="/img/companyinfo_mobile.png", style="margin-top:2%;width:60%; bottom:0px;")
+    div.visible-xs-12.hidden-lg.hidden-md.hidden-sm
+      div(style="bottom:0px; background-color:#111133; opacity: 0.8; margin-top: 60%; position:absolute;")
+        each menuItem in tabmenu
+          .col-xs-3(style='border: 1px solid #777; padding: 13px')
+            a(href='/'+menuItem.id, style='list-style:none; font-size:3vw; bottom:0px; color:#ffffff;')= menuItem.contents
+        img(src="/img/companyinfo_mobile.png", style="margin-top:2%;width:60%; bottom:0px;")
+    div.visible-lg-2.visible-md-2.hidden-xs.hidden-s
+      div.col-sm-2(style="height:100%; color: #ffffff; background-color:#111133; opacity: 0.8;  filter: alpha(opacity=50); position:fixed;")
+        p
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;  margin-bottom: 15%;')
+        br
+        br
+        br
+        div
+          ul(style="list-style:none;").leftMenu
+            each menuItem in tabmenu
+              li.topmenu(style="height:100%; margin-bottom: 5px; margin-left: 5%")
+                a(href='/'+menuItem.id, style='background-position: left top; text-align:left; clear:left; font-size:1.1vw; margin-top:5%;', class="topmenu")= menuItem.contents
+                div(id=menuItem.contents, style='height:0px; overflow: hidden; opacity:0px;text-align:left; font-size:0.9vw;')
+                  ul(style='list-style:none; padding-left:20px;')
+                    each submenuItem in submenu
+                      if submenuItem.tab_id==menuItem.id
+                        li(style="padding-left:0px;").submenu
+                          a(href='/'+menuItem.id+'/'+submenuItem.id)= submenuItem.item
+        div#companyInfo(style="position:absolute; bottom: 0px; width:17vw;")
+          img(src="/img/companyinfo.png", style="width:100%;")
+
+        

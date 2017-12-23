@@ -1,0 +1,29 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title slideDown demo
+    style.
+      div {
+      background: #de9a44;
+      margin: 3px;
+      width: 80px;
+      height: 40px;
+      display: none;
+      float: left;
+      }
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js')
+    script(src="/css/bootstrap-3.3.4-dist/js/bootstrap.min.js")
+  body
+    | Click me!
+    div.asd asadfasdf
+    div.asd
+    div.asd
+    script.
+      $( document.body ).click(function () {
+      if ( $( ".asd:first" ).is( ":hidden" ) ) {
+      $( ".asd" ).slideDown( "slow" );
+      } else {
+      $( ".asd" ).hide();
+      }
+      });

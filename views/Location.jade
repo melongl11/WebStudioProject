@@ -1,0 +1,116 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    link(rel="stylesheet", href="/css/bootstrap-3.3.4-dist/css/bootstrap.min.css")
+    link(rel='stylesheet', type='text/css', href='/css/homeCss.css')
+    link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
+
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+    script(src="/css/bootstrap-3.3.4-dist/js/bootstrap.min.js")
+    script(src="/js/menu.js")
+    style.
+      #map {
+      height: 500px;
+      width: 70%;
+      margin: auto;
+      }
+      #map_mobile {
+      height: 260px;
+      width: 100%;
+      margin: auto;
+      }
+    title 오시는 길
+  body
+    div.hidden-lg.hidden-md.visible-xs-12.visible-sm-12
+      .w3-content.w3-display-container(style='height:60%;width:100%;max-width:none;margin-left:0px;margin-right:0px; position: relative; top: 0px;')
+        h1(style="text-align:center; margin-bottom: 15px; color:#97B4E8")
+          strong DIRECTION
+        h4(style="text-align:center;color:#97B4E8 ")
+          오시는 길
+        br
+        #map_mobile
+        .col-sm-2
+        .col-sm-8
+          img( src='/img/roadinfo1.jpg', height='auto', width='100%')
+          img( src='/img/roadinfo2.jpg', height='auto', width='100%')
+          img( src='/img/roadinfo3.jpg', height='auto', width='100%')
+          img( src='/img/roadinfo4.jpg', height='auto', width='100%')
+          #menu(style="background-color:#111133; opacity: 0.8;height:10%;")
+        
+      div(style="position:fixed; bottom:0px; background-color:#111133; opacity: 0.8; margin-top: 60%;height:30%;")
+        br
+        br
+        .col-xs-3(style='padding:10px;')
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;')
+        each menuItem in tabmenu
+          .col-xs-3(style='border: 1px solid #777; padding: 13px')
+            a(href='/'+menuItem.id, style='list-style:none; font-size:3vw; bottom:0px; color:#ffffff;')= menuItem.contents
+        img(src="/img/companyinfo_mobile.png", style="margin-top:2%;width:60%; bottom:0px;")
+        .col-sm-2
+  
+  
+    div.visible-lg-12.visible-md-12.hidden-xs.hidden-sm
+      div.col-sm-2(style="position:fixed; height:100%; color: #ffffff; background-color:#111133; opacity: 0.8;  filter: alpha(opacity=50);")
+        div
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='90%', style='margin-left: auto; margin-right: auto; display: block; float:left;  margin-bottom: 15%;')
+        div
+          ul(style="list-style:none;").leftMenu
+            each menuItem in tabmenu
+              li.topmenu(style="height:100%; margin-bottom: 5px; margin-left: 5%")
+                a(href='/'+menuItem.id, style='background-position: left top; text-align:left; clear:left; font-size:1.1vw; margin-top:5%;', class="topmenu")= menuItem.contents
+                div(id=menuItem.contents, style='height:0px; overflow: hidden; opacity:0px;text-align:left; font-size:0.9vw;')
+                  ul(style='list-style:none; padding-left:20px;')
+                    each submenuItem in submenu
+                      if submenuItem.tab_id==menuItem.id
+                        li(style="padding-left:0px;").submenu
+                          a(href='/'+menuItem.id+'/'+submenuItem.id)= submenuItem.item
+                  
+          div#companyInfo(style="position:absolute; bottom: 0px; width:17vw;")
+            img(src="/img/companyinfo.png", style="width:100%;")
+      
+      div.col-sm-8(style="margin-top:5%; position: relative; left:17% ; margin-left:10%;")
+        h1(style="text-align:center; margin-bottom: 15px; color:#97B4E8")
+          strong DIRECTION
+        h4(style="text-align:center;color:#97B4E8 ")
+          오시는 길
+        #map
+        h3
+          a(href='https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=AIzaSyCK16ZkFDNf2PqzEvySEA0ZM7jB4qs_6wA', style='margin-left:75%')="경로찾기"
+        
+        
+        script.
+          function initMap() {
+          var uluru = {lat: 36.579135, lng: 127.293858};
+          var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: uluru
+          });
+          var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+          });
+          
+          var map = new google.maps.Map(document.getElementById('map_mobile'), {
+          zoom: 12,
+          center: uluru
+          });
+          var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+          });
+          }
+          
+      
+        script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCK16ZkFDNf2PqzEvySEA0ZM7jB4qs_6wA&callback=initMap')
+        #image(style='margin-top:10%;')
+          .col-sm-2
+          .col-sm-8
+            img( src='/img/roadinfo1.jpg', height='auto', width='100%')
+            img( src='/img/roadinfo2.jpg', height='auto', width='100%')
+            img( src='/img/roadinfo3.jpg', height='auto', width='100%')
+            img( src='/img/roadinfo4.jpg', height='auto', width='100%')
+          .col-sm-2
+        

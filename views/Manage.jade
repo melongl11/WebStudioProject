@@ -1,0 +1,303 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    link(href='http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css', rel='stylesheet')
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js')
+    script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js')
+    script(src="/js/manage.js")
+    
+    title 세종승마장
+  body
+  .container
+    .text-center
+      #titleBar
+        h1 관리자 페이지
+    nav.col-md-3#manageMenu
+      h3 홈페이지 메뉴
+      ul
+        li
+          a(href='/manager/6') 메뉴 관리
+        
+      h3 글 관리
+      ul
+        li
+          a(href='/manager/2') 정보
+        li
+          a(href='/manager/3') 마방 
+        li
+          a(href='/manager/4') 공지사항
+        li
+          a(href='/manager/8') 갤러리
+        li
+          a(href='/manager/9') 승마 프로그램
+             
+      h3 예약 관리
+      ul
+        li
+          a(href='/manager/5') 달력 보기
+        
+    
+    nav.col-md-9        
+      if content == 6
+        link(rel="stylesheet", href="/css/bootstrap-3.3.4-dist/css/bootstrap.min.css")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+        script(src="/css/bootstrap-3.3.4-dist/js/bootstrap.min.js")
+        link(rel='stylesheet', type='text/css', href='http://www.blueb.co.kr/data/201010/IJ12872423858253/fullcalendar.css')
+        script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/jquery.js')
+        script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/jquery-ui-custom.js')
+        script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/fullcalendar.min.js')
+        ul
+          each menuitem in menuList
+            li
+              button(id=menuitem.id+'/'+menuitem.contents, onClick="menuListButton_click('"+menuitem.id+'/'+menuitem.contents+"')", value=menuitem.contents )= menuitem.contents
+              ul
+                each subListItem in subList
+                  if subListItem.tab_id == menuitem.id
+                    li.sub
+                      button(id=subListItem.id+'/'+subListItem.item, onClick="subListButton_click('"+subListItem.id+'/'+subListItem.item+"')", value=subListItem.item )= subListItem.item
+                      script.
+                        function subListButton_click(clicked_id, list) {
+                          var formDiv = document.getElementById("sublistFormDiv");
+                          var str = "";
+                          var info = document.location.href.split("/");
+                          if(!$("#menuAddFormDiv").empty()) formDiv.removeChild();
+                          if(!$("#menuListFormDiv").empty()) $("#menuListFormDiv").removeChild();
+                          if(!$("#sublistFormDiv").empty()) $("#sublistFormDiv").removeChild();
+                          if(!$("#subMenuAddFormDiv").empty()) $("#subMenuAddFormDiv").removeChild();
+                          var form = document.getElementById(clicked_id);
+                          var id = clicked_id.split("/");
+                          str += "<br>서브 메뉴 수정<br><form action='/manager/modify/submenu/" + id[0] + "' method='post'>";
+                          str += "<p><input type='text' name='item' placeholder='" + form.innerHTML + "'></p>";
+                          str += "<input type='submit' value='수정하기'>";
+                          str += "<input type='button' value='삭제하기' onclick='sublistdelete(" + id[0] + ")'></form><br>";
+                          var addform = document.createElement("div");
+                          addform.id = "addedForm";
+                          addform.innerHTML = str;
+                          formDiv.appendChild(addform);
+                        }
+                        function sublistdelete(clicked_id) {
+                          window.location.replace('http://localhost:3000/manager/modify/submenu/delete/' + clicked_id);
+                        }
+                        function addButton_click() {
+                          var formDiv = document.getElementById("subMenuAddFormDiv");
+                          var str = "";
+                          var info = document.location.href.split("/");
+                          if(!$("#menuAddFormDiv").empty()) formDiv.removeChild();
+                          if(!$("#menuListFormDiv").empty()) $("#menuListFormDiv").removeChild();
+                          if(!$("#subMenuAddFormDiv").empty()) formDiv.removeChild();
+                          if(!$("#sublistFormDiv").empty()) $("#sublistFormDiv").removeChild();
+                          var menulist = !{JSON.stringify(menuList)};
+                          str += "<br>서브 메뉴 추가 <br><form action='/manager/modify/submenu/add' method='post'>";
+                          str += '<select id="menuOption" name="tabMenu">option(selected="", disabled="") 탭 메뉴</select>';
+                          str += "<p><input type='text' name='item'></p>";
+                          str += "<p><input type='submit' value='추가'></p></form><br>";
+                          var addform = document.createElement("div");
+                          addform.innerHTML = str;
+                          formDiv.appendChild(addform);
+                          var menuOption = document.getElementById("menuOption");
+                          for(var obj in menulist)
+                          {
+                              menuOption.options.add(new Option(menulist[obj].contents, menulist[obj].id));
+                          }
+                        }
+
+
+        div#menuListFormDiv
+        div#menuAddFormDiv
+        div#sublistFormDiv
+        div#subMenuAddFormDiv
+        br
+        button(id=addButton, onClick="menuAddButton_click()", value=addButton) 메뉴 추가
+        button(id=addButton, onClick="addButton_click()", value=addButton) 서브메뉴 추가
+      else if content == 2
+        link(href='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css', rel='stylesheet')
+        script(src='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js')  
+        h3 승마장 정보 관리
+        ul
+          each informationItem in informationList
+            li.informationItem
+              button(id=informationItem.id, onClick="informationList_click(this.id, this.value)", value=informationItem.item)= informationItem.item
+        form#informationInputForm(method="post", style="visibility: hidden;")
+          textarea.summernote(name="description")
+          input.btn.btn-default.btn-lg(type="submit")
+          script.
+            $(document).ready(function() {
+            $('.summernote').summernote();
+            });
+          
+        br
+        br
+      else if content == 3
+        link(href='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css', rel='stylesheet')
+        script(src='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js')  
+        h3 마방(馬房) 추가  
+        form#horseroomAddForm(method="post", action="/manager/horseroom/add/" enctype="multipart/form-data")  
+          input.form-control(type="text", name="horse_name", placeholder="말의 이름을 적어주세요.")
+          input.form-control(type="file", name="horse_img", size=40)
+          textarea.summernote(name="description", placeholder="말에 대한 설명을 적어주세요.")
+          input.btn.btn-default.btn-lg(type="submit")
+          script.
+            $(document).ready(function() {
+            $('.summernote').summernote();
+            });  
+
+        each horse in horseinfo
+          div(style="float: left;")
+            img(src= "/img/horse/#{horse.horse_name}.jpg", width="400", height="250")
+          div(style="display:inline-block; vertical-align:text-top; margin-left:20px;")
+            h3|!{horse.horse_name}
+            |!{horse.description}
+            input.btn.btn-default.btn-lg(type="button", value='삭제하기', onclick="horsedelete(" + horse.id + ")")
+          div(style="clear: left; margin-bottom:20px;")
+          
+        
+      else if content == 4        
+        h3 공지사항 추가
+        link(href='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css', rel='stylesheet')
+        script(src='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js')  
+        form#noticeAddForm(method="post", action="/manager/community/add" )
+          input.form-control(type="text", name="title", placeholder="제목을 적어주세요.")
+          textarea.summernote(name="notice")
+          input.btn.btn-default.btn-lg(type="submit")
+          script.
+            $(document).ready(function() {
+            $('.summernote').summernote();
+            });
+          
+      else if content == 5 
+        link(rel="stylesheet", href="/css/bootstrap-3.3.4-dist/css/bootstrap.min.css")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+        script(src="/css/bootstrap-3.3.4-dist/js/bootstrap.min.js")
+        link(rel='stylesheet', type='text/css', href='http://www.blueb.co.kr/data/201010/IJ12872423858253/fullcalendar.css')
+        script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/jquery.js')
+        script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/jquery-ui-custom.js')
+        script(type='text/javascript', src='http://www.blueb.co.kr/data/201010/IJ12872423858253/fullcalendar.min.js')
+        h3 예약표 관리
+        script.
+          function check(){
+            if(fr.cname.value == "") {
+              alert("값을 입력해 주세요.");
+              fr.cname.focus();
+              return false;
+            }
+            else if(fr.sdate.value == "") {
+              alert("값을 입력해 주세요.");
+              fr.sdate.focus();
+              return false;
+            }
+            else if(fr.edate.value == "") {
+              alert("값을 입력해 주세요.");
+              fr.edate.focus();
+              return false;
+            }
+            else if(fr.horsename.value == "말 종류") {
+              alert("값을 입력해 주세요.");
+              fr.horsename.focus();
+              return false;
+            }
+            else return true;
+          }
+          var reservation = !{JSON.stringify(reservation)};
+          var horseinfo = !{JSON.stringify(horseinfo)};
+          $(document).ready(function() {
+            var array = []
+            var horselist = document.getElementById("horselist");
+            var i=1;
+            for(var obj in horseinfo)
+            {
+                horselist.options.add(new Option(horseinfo[obj].horse_name, horseinfo[obj].id));
+                i++;
+            }
+            
+            for(var obj in reservation)
+            {
+              console.log(reservation[obj].edate);
+              array.push({
+                title: reservation[obj].horse_name,
+                start: new Date(reservation[obj].sdate),
+                end: new Date(reservation[obj].edate)
+              })
+            }
+            
+          
+            $('#calendar').fullCalendar({
+              
+              eventClick: function(calEvent, jsEvent, view){
+                function dateToYMD(date) {
+                    return '삭제하시겠습니까??';
+                }
+                if (confirm(dateToYMD(calEvent.start)) == true) {
+                  $("#hname").val(calEvent.title);
+                  $("#ssdate").val(dateToYMD(calEvent.start));
+                  $("#eedate").val(dateToYMD(calEvent.end));
+                  $("#form").submit()
+               } 
+              },
+              
+              header: {
+              left: 'prev,next, today',
+              center: 'title',
+              right: 'disable'
+              },
+              events: array
+              
+            });
+          });
+     
+        style(type='text/css').
+          #calendar {
+          width: 500px;
+          margin: 0 auto;
+          float:left;
+          }
+        #calendar 
+        form#noticeAddForm(method="post", action="/manager/reservation/add" , onsubmit='return check()', name ='fr')
+          .col-xs-3
+            label(for='sdate') 시작 날짜
+            input#sdate.form-control(type='Date', name = "sdate")
+            label(for='ex1') 마지막 날짜
+            input#edate.form-control(type='Date', name = "edate")
+            label(for='ex4') 예약자명
+            input#cname.form-control(type='text', name = "cname")
+            label(for='ex4') 말이름
+            br
+            select(id ="horselist", name="horsename")
+              option(selected='', disabled='') 말 종류
+            br
+            br
+            input.btn.btn-default.btn-lg(type="submit")
+        
+        form#form(style='display: hidden', action='/manager/reservation/delete', method='POST')
+          input#hname(type='hidden', name='hname')
+          input#ssdate(type='hidden', name='ssdate')
+          input#eedate(type='hidden', name='eedate')
+      
+      else if content == 8
+        form#horseroomAddForm(method="post", action="/manager/gallery/add/" enctype="multipart/form-data")  
+          input.form-control(type="text", name="img_name", placeholder="제목을 적어주세요.")
+          input.form-control(type="file", name="new_img", size=40, onchange='openFile(event)')
+          img#output
+          input.btn.btn-default.btn-lg(type="submit")
+    
+      else if content == 9
+        link(href='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css', rel='stylesheet')
+        script(src='http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js')  
+        h3 승마 프로그램 관리
+        ul
+          each programItem in program
+            li.programItem
+              button(id=programItem.id, onClick="programList_click(this.id, this.value)", value=programItem.item)= programItem.item
+        form#programInputForm(method="post", style="visibility: hidden;")  
+          textarea.summernote(name="description")
+          input.btn.btn-default.btn-lg(type="submit")
+          script.
+            $(document).ready(function() {
+            $('.summernote').summernote();
+            });
+          
+        
+        
+        
+      
+      

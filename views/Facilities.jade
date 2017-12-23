@@ -1,0 +1,84 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    link(rel="stylesheet", href="/css/bootstrap-3.3.4-dist/css/bootstrap.min.css")
+    link(rel='stylesheet', type='text/css', href='/css/infoCss.css')
+    link(rel="stylesheet", type='text/css', href='/css/view.css')
+    link(rel="stylesheet", type='text/css', href='/css/homeCss.css')
+    link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')  
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js')
+    script(src="/css/bootstrap-3.3.4-dist/js/bootstrap.min.js")
+    script(src="/js/menu.js")
+    title 마방
+  body
+    div.hidden-lg.hidden-md.visible-xs-12.visible-sm-12
+      if description
+        each des in description
+          div(style="float: left;")
+            img(src= "/img/horse/#{des.horse_name}.jpg", width="400", height="250")
+          div(style="display:inline-block; vertical-align:text-top; margin-left:20px;")
+            h3|!{des.horse_name}
+            |!{des.description}
+          div(style="clear: left; margin-bottom:20px;")
+      div(style="position:absolute; bottom:0px; background-color:#111133; opacity: 0.8; margin-top: 60%;height:30%;")
+        br
+        br
+        .col-xs-3(style='padding:10px;')
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;')
+        each menuItem in tabmenu
+          .col-xs-3(style='border: 1px solid #777; padding: 13px')
+            a(href='/'+menuItem.id, style='list-style:none; font-size:3vw; bottom:0px; color:#ffffff;')= menuItem.contents
+        img(src="/img/companyinfo_mobile.png", style="margin-top:2%;width:60%; bottom:0px;")
+              
+    div.visible-lg-12.visible-md-12.hidden-xs.hidden-sm
+      div.col-sm-2(style="height:100%; color: #ffffff; background-color:#111133; opacity: 0.8;  filter: alpha(opacity=50); position:fixed;")
+        p
+          a(href='/home/')
+            img(id='logoImg', src='/img/logo.png', height='auto', width='100%', style='margin-left: auto; margin-right: auto; display: block; float:left;  margin-bottom: 15%;')
+        br
+        br
+        br
+        div
+          ul(style="list-style:none;").leftMenu
+            each menuItem in tabmenu
+              li.topmenu(style="height:100%; margin-bottom: 5px; margin-left: 5%")
+                a(href='/'+menuItem.id, style='background-position: left top; text-align:left; clear:left; font-size:1.1vw; margin-top:5%;', class="topmenu")= menuItem.contents
+                div(id=menuItem.contents, style='height:0px; overflow: hidden; opacity:0px;text-align:left; font-size:1.0vw;')
+                  ul(style='list-style:none; padding-left:20px;')
+                    each submenuItem in submenu
+                      if submenuItem.tab_id==menuItem.id
+                        li(style="padding-left:0px;").submenu
+                          a(href='/'+menuItem.id+'/'+submenuItem.id)= submenuItem.item
+        div#companyInfo(style="position:absolute; bottom: 0px; width:17vw;")
+          img(src="/img/companyinfo.png", style="width:100%;")
+      div(style="margin-top:5%; position: relative; left:10% ; margin-left:20%; width: 50%").col-sm-10
+        div(style="margin-left:0%;")
+          h1(style="text-align:center; margin-bottom: 15px; color:#97B4E8")
+            strong Horse Room
+          h4(style="text-align:center; color:#97B4E8 ")
+            마방(馬房)을 소개합니다.
+          br
+        if description
+          each des, i in description
+            if i % 2 == 0
+              div(style="float: left;")
+                img(src= "/img/horse/#{des.horse_name}.jpg", width="500", height="300")
+              div(style="display:inline-block; vertical-align:text-top; margin-left:10%;")
+                h3|!{des.horse_name}
+                |!{des.description}
+              div(style="clear: left; margin-bottom:20px;")
+            else
+              div(style="display:inline-block; vertical-align:text-top; margin-right:10%; float:left;")
+                h3|!{des.horse_name}
+                |!{des.description}
+              div
+                img(src= "/img/horse/#{des.horse_name}.jpg", width="500", height="300")
+              div(style="clear: right; margin-bottom:20px;")
+    
+          //  img.centerPicture(width='100%', height='100%', src='/img/main_image1.jpg', alt='')
+
+  
+
+  
